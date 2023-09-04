@@ -26,11 +26,11 @@
           </button>
         </ng-container>
         <ng-template #default>
-          <span *ngIf="!element.isEdit && !element.editable">
+          <span *ngIf="!element.isEdit || !column.editable">
             {{ element[column.property] }}
           </span>
         </ng-template>
-        <div *ngIf="element.isEdit && column.property !== 'actions'">
+        <div *ngIf="element.isEdit && column.editable">
           <div [ngSwitch]="column.type">
             <mat-form-field *ngSwitchCase="'textarea'">
               <textarea

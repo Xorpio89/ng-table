@@ -40,7 +40,6 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     MatIconModule,
     MatButtonModule,
-    MatRadioModule,
   ],
 })
 export class AppTableComponent implements OnChanges, AfterViewInit {
@@ -60,10 +59,6 @@ export class AppTableComponent implements OnChanges, AfterViewInit {
     if (changes && this.data) {
       this.dataSource.data = this.data;
     }
-  }
-
-  columnSettings(identifier: string): any[] {
-    return this.columns.map((column) => column[`${identifier}`]);
   }
 
   ngAfterViewInit() {
