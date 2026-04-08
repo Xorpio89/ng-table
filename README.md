@@ -1,27 +1,83 @@
-# AngularTable
+# 📊 Angular AI Data Table
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+> A fully-featured, AI-powered data table component built with Angular 17 — Signals, inline editing, and natural language filtering.
 
-## Development server
+![Angular](https://img.shields.io/badge/Angular_17-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![RxJS](https://img.shields.io/badge/RxJS-B7178C?style=for-the-badge&logo=reactivex&logoColor=white)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## What it does
 
-## Code scaffolding
+Drop-in Angular table component with column configuration, inline editing, and an AI filter bar — type "show users from Berlin joined last month" and it just works.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- ✏️ **Inline editing** — click any cell to edit, type-safe per column
+- 🤖 **AI Filter** — natural language queries via Claude API
+- ⚡ **Angular Signals** — zero-boilerplate reactive state
+- 🎨 **Headless styling** — bring your own CSS or use the included dark theme
+- 🔌 **Generic types** — works with any data shape
 
-## Build
+## Usage
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```typescript
+@Component({
+  template: `
+    <app-table
+      [data]="products()"
+      [columns]="columns"
+      [aiFilter]="true"
+      (rowEdit)="onEdit($event)"
+    />
+  `
+})
+export class ProductsComponent {
+  products = signal<Product[]>([]);
 
-## Running unit tests
+  columns: Column[] = [
+    { header: 'Name',     property: 'name',  type: 'text' },
+    { header: 'Price',    property: 'price', type: 'number', editable: true },
+    { header: 'Category', property: 'cat',   type: 'text',   editable: true },
+  ];
+}
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## AI Filter Example
 
-## Running end-to-end tests
+```
+"show products under €50"           → filters price < 50
+"only active users"                 → filters status = active
+"sort by latest and show top 5"     → sorts + limits
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Stack
 
-## Further help
+| | |
+|--|--|
+| Framework | Angular 17 (Standalone Components) |
+| State | Angular Signals |
+| Reactivity | RxJS |
+| AI | Claude API (filter parsing) |
+| Styling | CSS Custom Properties (themeable) |
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Column Config
+
+```typescript
+interface Column {
+  header: string;
+  property: string;
+  type?: 'text' | 'textarea' | 'number' | 'edit';
+  editable?: boolean;
+  sortable?: boolean;   // v2
+  filterable?: boolean; // v2
+}
+```
+
+## Demos
+
+| View | Dataset |
+|------|---------|
+| Products List | 500 mock products, AI filter enabled |
+| Users List | 200 users, inline edit enabled |
+
+---
+
+Built as a modern Angular showcase — demonstrates Signals, generics, and LLM-powered UX patterns.
